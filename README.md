@@ -10,11 +10,12 @@ mysql表结构自动同步工具
 5.  **邮件**通知变动结果    
 6.  支持屏蔽更新**表、字段、索引、外键**  
 7.  支持本地比线上额外多一些表、字段、索引、外键
+8.  支持忽略表检查
 
-
+原作者： http://github.com/hidu/mysql-schema-sync
 
 ### 安装
->go get -u github.com/hidu/mysql-schema-sync
+>go get -u github.com/kuailemy123/mysql-schema-sync
 
 
 ### 配置
@@ -40,6 +41,8 @@ mysql表结构自动同步工具
       },
       //  tables: table to check schema,default is all.eg :["order_*","goods"]
       "tables":[],
+      // 忽略检查的表名称
+      "tables_ignore": [],
       //有变动或者失败时，邮件接收人
       "email":{
           "send_mail":false,
@@ -54,7 +57,8 @@ mysql表结构自动同步工具
 #### json配置项说明
 source: 数据库同步源  
 dest:   待同步的数据库  
-tables： 数组，配置需要同步的表，为空则是不限制，eg: ["goods","order_*"]  
+tables： 数组，配置需要同步的表，为空则是不限制，eg: ["goods","order_*"] 
+tables_ignore： 数组，配置需要忽略同步的表，为空则是没有，eg: ["goods","order_*"] 
 alter_ignore： 忽略修改的配置，表名为tableName，可以配置 column 和 index，支持通配符 *  
 email ： 同步完成后发送邮件通知信息  
 
@@ -105,7 +109,9 @@ mysql-schema-sync [-conf] [-dest] [-source] [-sync] [-drop]
   -tables string
         待检查同步的数据库表，为空则是全部
         eg : product_base,order_*
-
+  -tables_ignore string
+        忽略检查同步的数据库表，为空则是没有
+        eg : product_base,order_*
 </code>
 </pre>
 
